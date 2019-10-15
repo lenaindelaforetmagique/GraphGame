@@ -19,8 +19,8 @@ class Node {
 
     this.dom = document.createElementNS(SVGNS, 'ellipse');
     this.dom.setAttribute("class", "Node");
-    this.dom.setAttribute('rx', 5);
-    this.dom.setAttribute('ry', 5);
+    this.dom.setAttribute('rx', 10);
+    this.dom.setAttribute('ry', 10);
 
     this.addEvents();
     this.updateDom();
@@ -41,10 +41,14 @@ class Node {
 
   addEvents() {
     var thiz = this;
-    this.dom.addEventListener("mousedown", function(e) {
+
+    var handleDown = function(e) {
       e.preventDefault();
       thiz.parent.selectedNode = thiz;
-    }, false);
+    }
+
+    this.dom.addEventListener("mousedown", handleDown, false);
+    this.dom.addEventListener("touchstart", handleDown, false);
   }
 
 }

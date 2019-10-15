@@ -56,13 +56,20 @@ header {
   font-size: 110%;
 }
 
-footer {
+/* footer {
   position: absolute;
   top: 95%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   font-size: 80%;
+} */
+footer {
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  font-size: 12px;
 }
 
 a {
@@ -118,4 +125,35 @@ polyline.segmentKO {
   stroke: red;
   stroke-width: 3;
   /* stroke-dasharray: 4; */
+}
+
+@media screen and (max-device-width: 600px) {
+  h1 {
+    margin: 0;
+  }
+
+  #arrows img {
+    width: 10%;
+    position: absolute;
+  }
+
+  #aleft {
+    top: 50%;
+    left: 0%;
+  }
+
+  #aright {
+    top: 50%;
+    right: 0%;
+  }
+
+  #aup {
+    top: 2%;
+    right: 5%;
+  }
+
+  #adown {
+    top: 2%;
+    right: 20%;
+  }
 }

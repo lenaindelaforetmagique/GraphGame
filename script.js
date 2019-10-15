@@ -30,7 +30,7 @@ class Universe {
     this.levelMax = 5;
     this.levelMin = 4;
 
-    this.radius = 150;
+    this.radius = Math.min(this.viewBox.height, this.viewBox.width) / 3;
     // this.curves = [];
     this.init();
     this.addEvents();
@@ -170,31 +170,34 @@ class Universe {
     }
 
     // MOUSE events
-    this.container.addEventListener("mousedown", function(e) {
-      e.preventDefault();
-      thiz.hasMoved = false;
-      if (!thiz.selectedNode) {
-        // thiz.addNewNode(
-        //   thiz.viewBox.realX(e.clientX),
-        //   thiz.viewBox.realY(e.clientY)
-        // );
-      }
-    }, false);
+    // this.container.addEventListener("mousedown", function(e) {
+    //   e.preventDefault();
+    //   thiz.hasMoved = false;
+    //   if (!thiz.selectedNode) {
+    //     // thiz.addNewNode(
+    //     //   thiz.viewBox.realX(e.clientX),
+    //     //   thiz.viewBox.realY(e.clientY)
+    //     // );
+    //   }
+    // }, false);
 
-    document.addEventListener("mousemove", function(e) {
+    var handleMove = function(e) {
       e.preventDefault();
-      thiz.hasMoved = true;
       if (thiz.selectedNode != null) {
         thiz.selectedNode.x = thiz.viewBox.realX(e.clientX);
         thiz.selectedNode.y = thiz.viewBox.realY(e.clientY);
         thiz.updateDom();
       }
-    }, false);
+    }
 
-    document.addEventListener("mouseup", function(e) {
+    document.addEventListener("mousemove", handleMove, false);
+
+    var handleUp = function(e) {
       e.preventDefault();
       thiz.selectedNode = null;
-    }, false);
+    }
+    document.addEventListener("mouseup", handleUp, false);
+
 
     document.addEventListener("wheel", function(e) {
       e.preventDefault();
@@ -213,27 +216,32 @@ class Universe {
       thiz.levelDown();
     };
 
-    //
-    // // TOUCH events
-    // this.container.addEventListener("touchstart", function(e) {
-    //   e.preventDefault();
-    // }, false);
-    //
-    // this.container.addEventListener("touchmove", function(e) {
-    //   e.preventDefault();
-    // }, false);
-    //
-    // this.container.addEventListener("touchend", function(e) {
-    //   e.preventDefault();
-    // }, false);
-    //
-    // this.container.addEventListener("touchcancel", function(e) {
-    //   e.preventDefault();
-    // }, false);
-    //
-    // this.container.addEventListener("touchleave", function(e) {
-    //   e.preventDefault();
-    // }, false);
+    // TOUCH events
+    document.addEventListener("touchstart", function(e) {
+      e.preventDefault();
+    }, false);
+
+    // document.addEventListener("touchmove", handleMove, false);
+
+    this.container.addEventListener("touchmove", function(e) {
+      e.preventDefault();
+      if (thiz.selectedNode != null) {
+        thiz.selectedNode.x = thiz.viewBox.realX(e.changedTouches[0].clientX);
+        thiz.selectedNode.y = thiz.viewBox.realY(e.changedTouches[0].clientY);
+        thiz.updateDom();
+      }
+    }, false);
+
+
+    this.container.addEventListener("touchend", handleUp, false);
+
+    this.container.addEventListener("touchcancel", function(e) {
+      e.preventDefault();
+    }, false);
+
+    this.container.addEventListener("touchleave", function(e) {
+      e.preventDefault();
+    }, false);
 
     // OTHER events
     window.onresize = function(e) {
@@ -261,7 +269,7 @@ class ViewBox {
   constructor(parent_) {
     this.parent = parent_;
     this.xMin = -window.innerWidth / 2;
-    this.yMin = -window.innerHeight / 2;
+    this.yMin = -window.innerHeight / 1.7;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.set();
