@@ -32,7 +32,7 @@ class Node {
   }
 
   recalPos() {
-    let ka = 0.049;
+    let ka = 0.359;
     let ax = (this.xTarget - this.x) * ka;
     let ay = (this.yTarget - this.y) * ka;
 

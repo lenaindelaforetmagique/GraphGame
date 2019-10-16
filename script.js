@@ -25,13 +25,12 @@ class Universe {
     this.nodes = [];
     this.edges = [];
 
-
     this.level = 4;
     this.levelMax = 5;
     this.levelMin = 4;
 
     this.radius = Math.min(this.viewBox.height, this.viewBox.width) / 3;
-    // this.curves = [];
+
     this.init();
     this.addEvents();
     this.lastUpdate = Date.now();
@@ -162,24 +161,22 @@ class Universe {
 
 
   harmonizeNodes() {
-
     var ref = new Vector(1, 0);
     if (this.selectedNode != null) {
-      // console.log("coucou");
-      // console.log(this.selectedNode);
-      // console.log(this.selectedNode.x, this.selectedNode.y);
       ref = new Vector(this.selectedNode.x, this.selectedNode.y);
     }
 
     var compareNodes = function(node1, node2) {
-      // console.log(ref);
       let angle1 = angle(ref, new Vector(node1.x, node1.y));
       let angle2 = angle(ref, new Vector(node2.x, node2.y));
       return angle1 - angle2;
     }
     this.nodes.sort(compareNodes);
 
-    // console.log(this.nodes[0]);
+    if (this.selectedNode != null) {
+      // console.log(this.nodes[0] == this.selectedNode);
+    }
+
 
     let angle0 = angle(new Vector(1, 0), new Vector(this.nodes[0].x, this.nodes[0].y));
     let deltaAngle = Math.PI * 2 / this.level;

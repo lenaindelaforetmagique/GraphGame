@@ -92,7 +92,6 @@ distance = function(vect1, vect2) {
   return res.norm();
 }
 
-
 angle = function(vect1, vect2) {
   // returns the angle between vect1 and vect2
   let v1 = vect1.copy();
@@ -105,6 +104,16 @@ angle = function(vect1, vect2) {
   if (sin < 0) {
     theta = Math.PI * 2 - theta;
     // theta *= -1;
+  } else if (sin == 0) {
+    if (cos > 0) {
+      theta = 0;
+    } else {
+      theta = Math.PI;
+    }
   }
+  // if (!(0 <= theta && theta < Math.PI * 2)) {
+  //   console.log(theta);
+  //   console.log(sin, cos);
+  // }
   return theta;
 }
