@@ -165,8 +165,8 @@ class Universe {
 
     var ref = new Vector(1, 0);
     if (this.selectedNode != null) {
-      console.log("coucou");
-      console.log(this.selectedNode);
+      // console.log("coucou");
+      // console.log(this.selectedNode);
       // console.log(this.selectedNode.x, this.selectedNode.y);
       ref = new Vector(this.selectedNode.x, this.selectedNode.y);
     }
@@ -179,14 +179,14 @@ class Universe {
     }
     this.nodes.sort(compareNodes);
 
-    console.log(this.nodes[0]);
+    // console.log(this.nodes[0]);
 
     let angle0 = angle(new Vector(1, 0), new Vector(this.nodes[0].x, this.nodes[0].y));
     let deltaAngle = Math.PI * 2 / this.level;
     let i = 0;
     for (let node of this.nodes) {
       let theta = angle0 + i * deltaAngle;
-      console.log(theta);
+      // console.log(theta);
       node.xTarget = this.radius * Math.cos(theta);
       node.yTarget = this.radius * Math.sin(theta);
       i += 1;
