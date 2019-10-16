@@ -10,12 +10,17 @@ pointList_to_string = function(points_) {
   return list;
 }
 
-
 class Node {
   constructor(x_ = 0, y_ = 0, parent_) {
     this.x = x_;
     this.y = y_;
+
     this.parent = parent_;
+
+    this.xTarget = x_;
+    this.yTarget = y_;
+    this.dx = 0;
+    this.dy = 0;
 
     this.dom = document.createElementNS(SVGNS, 'ellipse');
     this.dom.setAttribute("class", "Node");
@@ -24,6 +29,26 @@ class Node {
 
     this.addEvents();
     this.updateDom();
+  }
+
+  recalPos() {
+    let ka = 0.049;
+    let ax = (this.xTarget - this.x) * ka;
+    let ay = (this.yTarget - this.y) * ka;
+
+    // integration
+    this.dx += ax;
+    this.dy += ay;
+
+    // viscosity
+    let kv = 0.49;
+    this.dx *= kv;
+    this.dy *= kv;
+
+    // position
+    this.x += this.dx;
+    this.y += this.dy;
+
   }
 
   updateDom() {
