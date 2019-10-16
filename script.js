@@ -34,6 +34,7 @@ class Universe {
     // this.curves = [];
     this.init();
     this.addEvents();
+    this.lastUpdate = Date.now();
   }
 
   init() {
@@ -65,10 +66,21 @@ class Universe {
 
     for (let i = 0; i < this.level; i++) {
       this.addNewNode(-50 + Math.random() * 100, Math.random() * 100 - 50);
+      // this.nodes.last().normalize(this.radius);
     }
 
     this.generateEdges();
+    this.harmonizeNodes();
     this.updateDom();
+  }
+
+  refresh() {
+    let now = Date.now();
+    if (now - this.lastUpdate > 20) {
+      this.lastUpdate = now;
+      this.recalPos();
+      this.updateDom();
+    }
   }
 
   levelUp() {
@@ -114,11 +126,9 @@ class Universe {
 
       indices.splice(i, 1);
     }
-
-
-
-
   }
+
+
 
   addNewNode(x_ = 0, y_ = 0) {
     let newNode = new Node(x_, y_, this);
@@ -132,6 +142,11 @@ class Universe {
     this.edges.push(newEdge);
   }
 
+  recalPos() {
+    for (let node of this.nodes) {
+      node.recalPos();
+    }
+  }
 
   updateDom() {
     for (let node of this.nodes) {
@@ -142,6 +157,42 @@ class Universe {
     for (let edge of this.edges) {
       edge.controlOthers(this.edges);
       edge.updateDom();
+    }
+  }
+
+
+  harmonizeNodes() {
+
+    var ref = new Vector(1, 0);
+    if (this.selectedNode != null) {
+      console.log("coucou");
+      console.log(this.selectedNode);
+      // console.log(this.selectedNode.x, this.selectedNode.y);
+      ref = new Vector(this.selectedNode.x, this.selectedNode.y);
+    }
+
+    var compareNodes = function(node1, node2) {
+      // console.log(ref);
+      let angle1 = angle(ref, new Vector(node1.x, node1.y));
+      let angle2 = angle(ref, new Vector(node2.x, node2.y));
+      return angle1 - angle2;
+    }
+    this.nodes.sort(compareNodes);
+
+    console.log(this.nodes[0]);
+
+    let angle0 = angle(new Vector(1, 0), new Vector(this.nodes[0].x, this.nodes[0].y));
+    let deltaAngle = Math.PI * 2 / this.level;
+    let i = 0;
+    for (let node of this.nodes) {
+      let theta = angle0 + i * deltaAngle;
+      console.log(theta);
+      node.xTarget = this.radius * Math.cos(theta);
+      node.yTarget = this.radius * Math.sin(theta);
+      i += 1;
+
+      // node.normalize(this.radius);
+      // node.updateDom();
     }
   }
 
@@ -186,6 +237,8 @@ class Universe {
       if (thiz.selectedNode != null) {
         thiz.selectedNode.x = thiz.viewBox.realX(e.clientX);
         thiz.selectedNode.y = thiz.viewBox.realY(e.clientY);
+        thiz.selectedNode.xTarget = thiz.selectedNode.x;
+        thiz.selectedNode.yTarget = thiz.selectedNode.y;
         thiz.updateDom();
       }
     }
@@ -194,7 +247,9 @@ class Universe {
 
     var handleUp = function(e) {
       e.preventDefault();
+      thiz.harmonizeNodes();
       thiz.selectedNode = null;
+      thiz.updateDom();
     }
     document.addEventListener("mouseup", handleUp, false);
 
@@ -228,6 +283,8 @@ class Universe {
       if (thiz.selectedNode != null) {
         thiz.selectedNode.x = thiz.viewBox.realX(e.changedTouches[0].clientX);
         thiz.selectedNode.y = thiz.viewBox.realY(e.changedTouches[0].clientY);
+        thiz.selectedNode.xTarget = thiz.selectedNode.x;
+        thiz.selectedNode.yTarget = thiz.selectedNode.y;
         thiz.updateDom();
       }
     }, false);
@@ -321,3 +378,9 @@ class ViewBox {
 }
 
 let u_ = new Universe();
+
+var updateCB = function(timestamp) {
+  u_.refresh(timestamp);
+  window.requestAnimationFrame(updateCB);
+};
+updateCB(0);
