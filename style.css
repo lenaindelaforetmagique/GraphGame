@@ -128,6 +128,24 @@ polyline.segmentKO {
   /* stroke-dasharray: 4; */
 }
 
+#overlay {
+  position: absolute;
+  top: 40%;
+  left: 100%;
+  width: 200px;
+  background: rgba(250, 248, 239, 0.8);
+  color: #073642;
+  font-size: 20px;
+  /* z-index: 2; */
+  padding: 0 20px;
+  border-radius: 20px;
+  line-height: 50px;
+  font-weight: bold;
+  text-align: center;
+  transition: left 0.4s;
+  cursor: pointer;
+}
+
 @media screen and (max-device-width: 600px) {
   h1 {
     margin: 0;

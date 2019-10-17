@@ -22,16 +22,17 @@ class Universe {
     this.legend = document.getElementById("legend");
     this.header = document.getElementById("header");
     this.footer = document.getElementById("footer");
-    console.log(this.header.offsetTop + this.header.offsetHeight);
-    console.log(this.footer.offsetTop);
+    this.overlay = document.getElementById("overlay");
 
     this.selectedNode = null;
     this.nodes = [];
     this.edges = [];
 
     this.level = 4;
-    this.levelMax = 5;
+    this.levelMax = 4;
     this.levelMin = 4;
+    this.counter = 0;
+    this.levelFound = false;
 
     this.radius = 0.85 * Math.min(this.footer.offsetTop - (this.header.offsetTop + this.header.offsetHeight), this.viewBox.width) / 2;
     this.viewBox.translate(-this.viewBox.width / 2, -(this.footer.offsetTop + this.header.offsetTop + this.header.offsetHeight) / 2);
@@ -47,12 +48,15 @@ class Universe {
       this.dom.removeChild(this.dom.firstChild);
     }
 
-    this.circleDom = document.createElementNS(SVGNS, 'ellipse');
-    this.circleDom.setAttribute("class", "BoardLimit");
-    this.circleDom.setAttribute('rx', this.radius);
-    this.circleDom.setAttribute('ry', this.radius);
-    this.circleDom.setAttribute('cx', 0);
-    this.circleDom.setAttribute('cy', 0);
+    this.overlay.style.left = "100%";
+    this.counter = 0;
+    this.levelFound = false;
+    // this.circleDom = document.createElementNS(SVGNS, 'ellipse');
+    // this.circleDom.setAttribute("class", "BoardLimit");
+    // this.circleDom.setAttribute('rx', this.radius);
+    // this.circleDom.setAttribute('ry', this.radius);
+    // this.circleDom.setAttribute('cx', 0);
+    // this.circleDom.setAttribute('cy', 0);
     // this.dom.appendChild(this.circleDom);
 
     this.edgesDom = document.createElementNS(SVGNS, 'g');
@@ -88,15 +92,25 @@ class Universe {
   }
 
   levelUp() {
-    this.level += 1;
-    this.init();
+    if (this.level < this.levelMax) {
+      this.level += 1;
+      this.init();
+    }
   }
 
   levelDown() {
-    if (this.level > 4) {
+    if (this.level > this.levelMin) {
       this.level -= 1;
+      this.init();
     }
-    this.init();
+  }
+
+  gameEnded() {
+    this.levelFound = true;
+    this.levelMax = Math.max(this.levelMax, this.level + 1);
+    var a = this.counter;
+    this.overlay.innerHTML = "Trouvé en " + a + (a > 1 ? " coups !" : " coup !!")
+    this.overlay.style.left = (window.innerWidth - this.overlay.offsetWidth) / 2 + "px"
   }
 
 
@@ -113,7 +127,6 @@ class Universe {
     }
 
     while (indices.length > 3) {
-
       let i = Math.floor(Math.random() * indices.length);
       // console.log(indices);
       // console.log(i);
@@ -125,9 +138,6 @@ class Universe {
         iEnd = 0;
       }
       this.addNewEdge(this.nodes[indices[iStart]], this.nodes[indices[iEnd]]);
-
-
-
       indices.splice(i, 1);
     }
   }
@@ -163,6 +173,12 @@ class Universe {
       edge.updateDom();
     }
   }
+
+  controlEdges() {
+    var edgesNonOk = document.getElementsByClassName("segmentKO");
+    return edgesNonOk.length < 1;
+  }
+
 
 
   harmonizeNodes() {
@@ -250,11 +266,21 @@ class Universe {
     var handleUp = function(e) {
       e.preventDefault();
       // thiz.harmonizeNodes();
+
+      if (thiz.selectedNode != null) {
+        if (!thiz.levelFound) {
+          thiz.counter += 1;
+        }
+      }
+
       thiz.selectedNode = null;
       thiz.updateDom();
+
+      if (thiz.controlEdges()) {
+        thiz.gameEnded();
+      }
     }
     document.addEventListener("mouseup", handleUp, false);
-
 
     document.addEventListener("wheel", function(e) {
       e.preventDefault();
@@ -264,14 +290,6 @@ class Universe {
       }
       thiz.viewBox.scale(e.clientX, e.clientY, k);
     }, false);
-
-    this.ub.onclick = function() {
-      thiz.levelUp();
-    };
-
-    this.db.onclick = function() {
-      thiz.levelDown();
-    };
 
     // TOUCH events
     document.addEventListener("touchstart", function(e) {
@@ -302,10 +320,26 @@ class Universe {
       e.preventDefault();
     }, false);
 
+
+    // DOM OBJETS CLICK
+    this.ub.onclick = function() {
+      thiz.levelUp();
+    };
+
+    this.db.onclick = function() {
+      thiz.levelDown();
+    };
+
+    this.overlay.onclick = function() {
+      thiz.levelUp();
+    }
+
+
     // OTHER events
     window.onresize = function(e) {
-      // thiz.viewBox.resize();
+      thiz.viewBox.resize();
     }
+
 
     // window.onerror = function(msg, source, noligne, nocolonne, erreur) {
     //   let str = "";
