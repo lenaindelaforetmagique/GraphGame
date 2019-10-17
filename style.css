@@ -117,13 +117,14 @@ polyline.segment {
 
 polyline.segmentOK {
   stroke: green;
+  /* rgba(0, 255, 0, 255); */
   stroke-width: 2;
   /* stroke-dasharray: 4; */
 }
 
 polyline.segmentKO {
-  stroke: red;
-  stroke-width: 3;
+  stroke: rgba(255, 0, 0, 0.8);
+  stroke-width: 2;
   /* stroke-dasharray: 4; */
 }
 

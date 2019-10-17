@@ -20,6 +20,10 @@ class Universe {
     this.ub = document.getElementById("aup");
     this.db = document.getElementById("adown");
     this.legend = document.getElementById("legend");
+    this.header = document.getElementById("header");
+    this.footer = document.getElementById("footer");
+    console.log(this.header.offsetTop + this.header.offsetHeight);
+    console.log(this.footer.offsetTop);
 
     this.selectedNode = null;
     this.nodes = [];
@@ -29,7 +33,8 @@ class Universe {
     this.levelMax = 5;
     this.levelMin = 4;
 
-    this.radius = Math.min(this.viewBox.height, this.viewBox.width) / 3;
+    this.radius = Math.min(this.footer.offsetTop - (this.header.offsetTop + this.header.offsetHeight), this.viewBox.width * 0.9) / 2;
+    this.viewBox.translate(-this.viewBox.width / 2, -(this.footer.offsetTop + this.header.offsetTop + this.header.offsetHeight) / 2);
 
     this.init();
     this.addEvents();
@@ -48,7 +53,7 @@ class Universe {
     this.circleDom.setAttribute('ry', this.radius);
     this.circleDom.setAttribute('cx', 0);
     this.circleDom.setAttribute('cy', 0);
-    this.dom.appendChild(this.circleDom);
+    // this.dom.appendChild(this.circleDom);
 
     this.edgesDom = document.createElementNS(SVGNS, 'g');
     this.dom.appendChild(this.edgesDom);
@@ -149,7 +154,7 @@ class Universe {
 
   updateDom() {
     for (let node of this.nodes) {
-      node.normalize(this.radius);
+      // node.normalize(this.radius);
       node.updateDom();
     }
 
@@ -244,7 +249,7 @@ class Universe {
 
     var handleUp = function(e) {
       e.preventDefault();
-      thiz.harmonizeNodes();
+      // thiz.harmonizeNodes();
       thiz.selectedNode = null;
       thiz.updateDom();
     }
@@ -299,7 +304,7 @@ class Universe {
 
     // OTHER events
     window.onresize = function(e) {
-      thiz.viewBox.resize();
+      // thiz.viewBox.resize();
     }
 
     // window.onerror = function(msg, source, noligne, nocolonne, erreur) {
@@ -322,8 +327,8 @@ class Universe {
 class ViewBox {
   constructor(parent_) {
     this.parent = parent_;
-    this.xMin = -window.innerWidth / 2;
-    this.yMin = -window.innerHeight / 1.7;
+    this.xMin = 0;
+    this.yMin = 0;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.set();
