@@ -33,7 +33,7 @@ class Universe {
     this.levelMax = 5;
     this.levelMin = 4;
 
-    this.radius = Math.min(this.footer.offsetTop - (this.header.offsetTop + this.header.offsetHeight), this.viewBox.width * 0.9) / 2;
+    this.radius = 0.85 * Math.min(this.footer.offsetTop - (this.header.offsetTop + this.header.offsetHeight), this.viewBox.width) / 2;
     this.viewBox.translate(-this.viewBox.width / 2, -(this.footer.offsetTop + this.header.offsetTop + this.header.offsetHeight) / 2);
 
     this.init();
