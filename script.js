@@ -29,8 +29,15 @@ class Universe {
     this.edges = [];
 
     this.level = 4;
-    this.levelMax = 4;
     this.levelMin = 4;
+    this.levelMax = 4;
+
+    if (localStorage["GraphGameLevelMax"]) {
+      this.levelMax = JSON.parse(localStorage["GraphGameLevelMax"]);
+    }
+
+
+
     this.counter = 0;
     this.levelFound = false;
 
@@ -108,6 +115,7 @@ class Universe {
   gameEnded() {
     this.levelFound = true;
     this.levelMax = Math.max(this.levelMax, this.level + 1);
+    localStorage["GraphGameLevelMax"] = JSON.stringify(this.levelMax);
     var a = this.counter;
     this.overlay.innerHTML = "Trouvé en " + a + (a > 1 ? " coups !" : " coup !!")
     this.overlay.style.left = (window.innerWidth - this.overlay.offsetWidth) / 2 + "px"
