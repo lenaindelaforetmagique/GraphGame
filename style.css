@@ -54,6 +54,11 @@ header {
 #legend {
   font-weight: bold;
   font-size: 110%;
+  line-height: 0.8;
+}
+
+p {
+  line-height: 0;
 }
 
 /* footer {

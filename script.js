@@ -20,6 +20,7 @@ class Universe {
     this.ub = document.getElementById("aup");
     this.db = document.getElementById("adown");
     this.legend = document.getElementById("legend");
+    this.domCount = document.getElementById("counter");
     this.header = document.getElementById("header");
     this.footer = document.getElementById("footer");
     this.overlay = document.getElementById("overlay");
@@ -278,6 +279,7 @@ class Universe {
       if (thiz.selectedNode != null) {
         if (!thiz.levelFound) {
           thiz.counter += 1;
+          thiz.domCount.innerText = thiz.counter + (thiz.counter > 1 ? " coups" : " coup");
         }
       }
 
