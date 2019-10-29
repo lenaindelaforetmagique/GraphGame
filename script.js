@@ -78,7 +78,7 @@ class Universe {
     this.selectedNode = null;
 
     this.legend.innerText = "Niveau " + this.level;
-
+    this.domCount.innerText = "-- coups";
 
     for (let i = 0; i < this.level; i++) {
       this.addNewNode(-50 + Math.random() * 100, Math.random() * 100 - 50);
