@@ -87,6 +87,7 @@ class Edge {
 
     this.dom = document.createElementNS(SVGNS, 'polyline');
     this.statusOK = true;
+    this.colorKO = hslaGenerator(75 * (Math.random() - 0.5), 100, 40 * (Math.random() - 0.5) + 50, 1);
     this.updateDom();
   }
 
@@ -121,6 +122,7 @@ class Edge {
       this.dom.setAttribute('class', 'segmentOK');
     } else {
       this.dom.setAttribute('class', 'segmentKO');
+      this.dom.setAttribute('stroke', this.colorKO);
     }
 
     this.dom.setAttribute('points', pointList_to_string(this.nodes));

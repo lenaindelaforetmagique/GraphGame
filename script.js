@@ -10,6 +10,11 @@ colorGenerator = function(r = 0, g = 0, b = 0, alpha = 1) {
   return `rgba(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)}, ${alpha})`;
 }
 
+hslaGenerator = function(hue = 0, saturation = 0, light = 0, alpha = 1) {
+  return `hsla(${Math.floor(hue)}, ${Math.floor(saturation)}%, ${Math.floor(light)}%, ${alpha})`;
+  // return `hsl(${Math.floor(hue)}, ${Math.floor(saturation)}%, ${Math.floor(light)}%)`;
+}
+
 
 class Universe {
   constructor() {

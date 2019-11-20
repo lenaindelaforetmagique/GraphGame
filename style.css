@@ -128,7 +128,7 @@ polyline.segmentOK {
 }
 
 polyline.segmentKO {
-  stroke: rgba(255, 0, 0, 0.8);
+  /* stroke: rgba(255, 0, 0, 0.8); */
   stroke-width: 2;
   /* stroke-dasharray: 4; */
 }
