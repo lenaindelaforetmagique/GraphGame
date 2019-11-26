@@ -104,18 +104,11 @@ class Universe {
     }
   }
 
-  levelUp() {
-    if (this.level < this.levelMax) {
-      this.level += 1;
-      this.init();
-    }
-  }
-
-  levelDown() {
-    if (this.level > this.levelMin) {
-      this.level -= 1;
-      this.init();
-    }
+  changeLevel(delta) {
+    this.level += delta;
+    this.level = Math.min(this.levelMax, this.level);
+    this.level = Math.max(this.levelMin, this.level);
+    this.init();
   }
 
   gameEnded() {
@@ -242,10 +235,10 @@ class Universe {
           thiz.init();
           break;
         case "ARROWUP":
-          thiz.levelUp();
+          thiz.changeLevel(1);
           break;
         case "ARROWDOWN":
-          thiz.levelDown();
+          thiz.changeLevel(-1);
           break;
         default:
           break;
@@ -337,16 +330,28 @@ class Universe {
 
 
     // DOM OBJETS CLICK
-    this.ub.onclick = function() {
-      thiz.levelUp();
+    this.ub.onclick = function(e) {
+      if (e.ctrlKey) {
+        thiz.changeLevel(thiz.levelMax);
+      } else {
+        thiz.changeLevel(1);
+      }
     };
 
-    this.db.onclick = function() {
-      thiz.levelDown();
+    this.db.onclick = function(e) {
+      if (e.ctrlKey) {
+        thiz.changeLevel(-thiz.levelMax);
+      } else {
+        thiz.changeLevel(-1);
+      }
     };
 
-    this.overlay.onclick = function() {
-      thiz.levelUp();
+    this.overlay.onclick = function(e) {
+      if (e.ctrlKey) {
+        thiz.changeLevel(thiz.levelMax);
+      } else {
+        thiz.changeLevel(1);
+      }
     }
 
 
