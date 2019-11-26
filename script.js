@@ -41,6 +41,7 @@ class Universe {
     if (localStorage["GraphGameLevelMax"]) {
       this.levelMax = JSON.parse(localStorage["GraphGameLevelMax"]);
     }
+    this.level = this.levelMax;
 
 
 
