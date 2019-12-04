@@ -17,7 +17,7 @@ hslaGenerator = function(hue = 0, saturation = 0, light = 0, alpha = 1) {
 
 
 class Universe {
-  constructor() {
+  constructor(cheat_ = false) {
     this.container = document.getElementById("container");
     this.dom = document.createElementNS(SVGNS, "svg");
     this.container.appendChild(this.dom);
@@ -43,7 +43,7 @@ class Universe {
     }
     this.level = this.levelMax;
 
-
+    this.cheat = cheat_;
 
     this.counter = 0;
     this.levelFound = false;
@@ -165,8 +165,23 @@ class Universe {
   }
 
   recalPos() {
+
+    if (this.cheat) {
+      for (let edge of this.edges) {
+        edge.nodes[0].interractWith(edge.nodes[1], 100, 0.25, 1);
+        edge.nodes[1].interractWith(edge.nodes[0], 100, 0.25, 1);
+      }
+      for (let node of this.nodes) {
+        for (let other of this.nodes) {
+          if (node != other) {
+            node.interractWith(other, 0, -0.0296715, 1 / 2)
+          }
+        }
+      }
+    }
+
     for (let node of this.nodes) {
-      node.recalPos();
+      node.recalPos(this.cheat);
     }
   }
 
@@ -434,7 +449,21 @@ class ViewBox {
   }
 }
 
-let u_ = new Universe();
+
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      return pair[1];
+    }
+  }
+  return false;
+}
+let cheat = (getQueryVariable("cheat") == "1");
+console.log(cheat);
+let u_ = new Universe(cheat);
 
 var updateCB = function(timestamp) {
   u_.refresh(timestamp);

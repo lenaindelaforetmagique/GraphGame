@@ -31,14 +31,28 @@ class Node {
     this.updateDom();
   }
 
-  recalPos() {
-    let ka = 0.359;
-    let ax = (this.xTarget - this.x) * ka;
-    let ay = (this.yTarget - this.y) * ka;
+  interractWith(other, l0, fact, order = 1) {
+    let u_ = new Vector(this.x - other.x, this.y - other.y);
+    let l_ = u_.norm();
+    u_.normalize();
+    let intensity = -Math.pow(l_ - l0, order) * fact;
+    u_.mult(intensity);
+    this.dx += u_.x
+    this.dy += u_.y
 
-    // integration
-    this.dx += ax;
-    this.dy += ay;
+  }
+
+  recalPos(cheat_) {
+    if (!cheat_) {
+      let ka = 0.359;
+      let ax = (this.xTarget - this.x) * ka;
+      let ay = (this.yTarget - this.y) * ka;
+
+      // integration
+      this.dx += ax;
+      this.dy += ay;
+    }
+
 
     // viscosity
     let kv = 0.49;
