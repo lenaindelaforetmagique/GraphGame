@@ -168,13 +168,13 @@ class Universe {
 
     if (this.cheat) {
       for (let edge of this.edges) {
-        edge.nodes[0].interractWith(edge.nodes[1], 100, 0.25, 1);
-        edge.nodes[1].interractWith(edge.nodes[0], 100, 0.25, 1);
+        edge.nodes[0].interractWith(edge.nodes[1], 150, 0.325, 1);
+        edge.nodes[1].interractWith(edge.nodes[0], 150, 0.325, 1);
       }
       for (let node of this.nodes) {
         for (let other of this.nodes) {
           if (node != other) {
-            node.interractWith(other, 0, -0.0296715, 1 / 2)
+            node.interractWith(other, 0, -1000, -1)
           }
         }
       }
