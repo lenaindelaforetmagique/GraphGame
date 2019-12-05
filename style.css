@@ -98,7 +98,17 @@ a:active {
 }
 
 ellipse.Node {
+  /* fill: white; */
+  stroke: rgba(0, 0, 200, 1);
+}
+
+ellipse.NodeFree {
   fill: white;
+  stroke: rgba(0, 0, 200, 1);
+}
+
+ellipse.NodeNotFree {
+  fill: rgba(225, 225, 27, 1);
   stroke: rgba(0, 0, 200, 1);
 }
 

@@ -174,7 +174,7 @@ class Universe {
       for (let node of this.nodes) {
         for (let other of this.nodes) {
           if (node != other) {
-            node.interractWith(other, 0, -1000, -1)
+            node.interractWith(other, 0.001, -1000, -1)
           }
         }
       }

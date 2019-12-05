@@ -22,8 +22,10 @@ class Node {
     this.dx = 0;
     this.dy = 0;
 
+    this.isFree = true;
+
     this.dom = document.createElementNS(SVGNS, 'ellipse');
-    this.dom.setAttribute("class", "Node");
+    this.dom.setAttribute("class", "NodeFree");
     this.dom.setAttribute('rx', 10);
     this.dom.setAttribute('ry', 10);
 
@@ -60,14 +62,22 @@ class Node {
     this.dy *= kv;
 
     // position
-    this.x += this.dx;
-    this.y += this.dy;
-
+    if (this.isFree) {
+      this.x += this.dx;
+      this.y += this.dy;
+    }
   }
 
   updateDom() {
     this.dom.setAttribute('cx', this.x);
     this.dom.setAttribute('cy', this.y);
+    if (this.isFree) {
+      // this.dom.setAttribute('fill', colorGenerator(255, 255, 255, 1));
+      this.dom.setAttribute("class", "NodeFree");
+    } else {
+      // this.dom.setAttribute('fill', colorGenerator(175, 175, 175, 1));
+      this.dom.setAttribute("class", "NodeNotFree");
+    }
   }
 
   normalize(radius) {
@@ -84,10 +94,22 @@ class Node {
     var handleDown = function(e) {
       e.preventDefault();
       thiz.parent.selectedNode = thiz;
+      thiz.isFree = false;
+
+    }
+    var handleUp = function(e) {
+      e.preventDefault();
+      thiz.parent.selectedNode = thiz;
+      if (e.ctrlKey) {
+        thiz.isFree = true;
+      } else {
+        thiz.isFree = false;
+      }
     }
 
     this.dom.addEventListener("mousedown", handleDown, false);
     this.dom.addEventListener("touchstart", handleDown, false);
+    this.dom.addEventListener("mouseup", handleUp, false);
   }
 
 }
