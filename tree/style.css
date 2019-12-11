@@ -1,0 +1,193 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Overlock', monospace;
+  background-color: #ADD8E6;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+}
+
+#container {
+  /* margin: 0; */
+  /* padding: 0; */
+  height: 100%;
+}
+
+#arrows img {
+  width: 60px;
+  position: absolute;
+  cursor: pointer;
+  /* border-radius: 50px; */
+  /* background: rgba(0, 0, 0, 0.2); */
+}
+
+#aup {
+  top: 2%;
+  right: 30px;
+  fill: red;
+}
+
+#adown {
+  top: 2%;
+  right: 120px;
+}
+
+path, #angle-down {
+  fill: red;
+}
+
+header {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0px;
+  left: 5px;
+  font-size: 80%;
+}
+
+#legend {
+  font-weight: bold;
+  font-size: 110%;
+  line-height: 0.8;
+}
+
+p {
+  line-height: 0;
+}
+
+/* footer {
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 80%;
+} */
+footer {
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  font-size: 12px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+a:visited {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+a:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+a:active {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+ellipse.Node {
+  /* fill: white; */
+  stroke: rgba(0, 0, 200, 1);
+}
+
+ellipse.NodeFree {
+  fill: white;
+  stroke: rgba(0, 0, 200, 1);
+}
+
+ellipse.NodeNotFree {
+  fill: rgba(225, 225, 27, 1);
+  stroke: rgba(0, 0, 200, 1);
+}
+
+ellipse.BoardLimit {
+  fill: rgba(0, 0, 0, 0);
+  stroke: rgba(0, 0, 0, .9);
+}
+
+polyline {
+  fill: none;
+}
+
+polyline.curve {
+  stroke: red;
+}
+
+polyline.segment {
+  stroke: black;
+  /* stroke-dasharray: 4; */
+}
+
+polyline.segmentOK {
+  stroke: green;
+  /* rgba(0, 255, 0, 255); */
+  stroke-width: 2;
+  /* stroke-dasharray: 4; */
+}
+
+polyline.segmentKO {
+  /* stroke: rgba(255, 0, 0, 0.8); */
+  stroke-width: 2;
+  /* stroke-dasharray: 4; */
+}
+
+#overlay {
+  position: absolute;
+  top: 40%;
+  left: 100%;
+  width: 200px;
+  background: rgba(250, 248, 239, 0.8);
+  color: #073642;
+  font-size: 20px;
+  /* z-index: 2; */
+  padding: 0 20px;
+  border-radius: 20px;
+  line-height: 50px;
+  font-weight: bold;
+  text-align: center;
+  transition: left 0.4s;
+  cursor: pointer;
+}
+
+@media screen and (max-device-width: 600px) {
+  h1 {
+    margin: 0;
+  }
+
+  #arrows img {
+    width: 10%;
+    position: absolute;
+  }
+
+  #aleft {
+    top: 50%;
+    left: 0%;
+  }
+
+  #aright {
+    top: 50%;
+    right: 0%;
+  }
+
+  #aup {
+    top: 2%;
+    right: 5%;
+  }
+
+  #adown {
+    top: 2%;
+    right: 20%;
+  }
+}

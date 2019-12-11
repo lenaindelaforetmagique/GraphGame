@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Tree viewer</title>
+  <link rel="shorcut icon" href="icon.png" type="image/x-icon">
+  <meta charset="UTF-8">
+  <!-- meta tags -->
+  <meta name="author" content="Xavier Morin">
+  <meta name="description" content="Un visualiseur d'arbres">
+  <meta name="keywords" content="Tree">
+
+  <!-- Open Graph protocol : http://ogp.me/ -->
+  <meta property="og:title" content="Tree viewer">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Un visualiseur d'arbres">
+  <meta property="og:url" content="https://lenaindelaforetmagique.github.io/GraphGame/tree">
+  <meta property="og:image" content="http://lenaindelaforetmagique.github.io/GraphGame/tree/screenshot.png">
+
+
+  <link href="https://fonts.googleapis.com/css?family=Overlock" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header id="header">
+    <h1>Tree viewer</h1>
+    <p>Un visualiseur d'arbres</p>
+    <ul>
+      <li>Cliquez-glissez sur les nœuds pour les déplacer</li>
+      <li>Espace pour recommencer</li>
+      <li>CTRL + clic pour libérer un nœud déplacé</li>
+    </ul>
+    <div id="legend">Certaines fonctionnalités de ce site ne sont pas prises en compte par votre navigateur, essayez-en un meilleur : Firefox, Chrome par exemple...</div>
+  </header>
+  <div id="container"></div>
+  <div id="arrows">
+    <img id="aup" src="angle-up.svg">
+    <img id="adown" src="angle-down.svg">
+  </div>
+  <footer id="footer">
+    <p>
+      <a href="https://lenaindelaforetmagique.github.io/" target="_blank">Copyright (c) 2019 Xavier Morin</a>
+    </p>
+  </footer>
+  <script src="vectors.js"></script>
+  <script src="graphObjects.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
