@@ -29,8 +29,9 @@ class Universe {
     this.footer = document.getElementById("footer");
 
     this.selectedNode = null;
-    this.nodes = [];
-    this.edges = [];
+    this.trees = [];
+    // this.nodes = [];
+    // this.edges = [];
 
     this.level = 4;
     this.levelMin = 4;
@@ -43,28 +44,26 @@ class Universe {
     this.lastUpdate = Date.now();
   }
 
+
+  selectNode(selectedNode_) {
+    this.selectedNode = selectedNode_;
+  }
+
   init() {
     // clean everything
     while (this.dom.firstChild != null) {
       this.dom.removeChild(this.dom.firstChild);
     }
 
-    this.edgesDom = document.createElementNS(SVGNS, 'g');
-    this.dom.appendChild(this.edgesDom);
+    this.treesDom = document.createElementNS(SVGNS, 'g');
+    this.dom.appendChild(this.treesDom);
 
-    this.nodesDom = document.createElementNS(SVGNS, 'g');
-    this.dom.appendChild(this.nodesDom);
-
-    this.nodes = [];
-    this.edges = [];
+    this.trees = [];
     this.selectedNode = null;
 
     this.legend.innerText = this.level + " nœuds";
 
-    for (let i = 0; i < this.level; i++) {
-      this.addNewNode(-50 + Math.random() * 100, Math.random() * 100 - 50);
-    }
-
+    this.addNewTree(this.level);
     this.updateDom();
   }
 
@@ -83,49 +82,30 @@ class Universe {
     this.init();
   }
 
-  addNewNode(x_ = 0, y_ = 0) {
-    let newNode = new Node(x_, y_, this);
-    if (this.nodes.length > 0) {
-      let i = Math.floor(Math.random() * this.nodes.length);
-      this.addNewEdge(newNode, this.nodes[i]);
-    }
-    this.nodesDom.appendChild(newNode.dom);
-    this.nodes.push(newNode)
+  addNewTree(size = 1) {
+    let newTree = new Tree(size, this);
+    this.treesDom.appendChild(newTree.dom);
+    this.trees.push(newTree);
   }
 
-  addNewEdge(node1_, node2_) {
-    let newEdge = new Edge(node1_, node2_);
-    this.edgesDom.appendChild(newEdge.dom);
-    this.edges.push(newEdge);
+  killTree(tree) {
+    // kill dom
+    tree.dom.remove();
+
+    // kill tree
+    console.log(this.trees.indexOf(tree));
+    this.trees.splice(this.trees.indexOf(tree), 1);
   }
 
   recalPos() {
-    for (let edge of this.edges) {
-      edge.nodes[0].interractWith(edge.nodes[1], 45, 0.4325, 1);
-      edge.nodes[1].interractWith(edge.nodes[0], 45, 0.4325, 1);
-    }
-    for (let node of this.nodes) {
-      for (let other of this.nodes) {
-        if (node != other) {
-          node.interractWith(other, 0.001, -125, -1)
-        }
-      }
-    }
-
-    for (let node of this.nodes) {
-      node.recalPos();
+    for (let tree of this.trees) {
+      tree.recalPos();
     }
   }
 
   updateDom() {
-    for (let node of this.nodes) {
-      // node.normalize(this.radius);
-      node.updateDom();
-    }
-
-    for (let edge of this.edges) {
-      edge.controlOthers(this.edges);
-      edge.updateDom();
+    for (let tree of this.trees) {
+      tree.updateDom();
     }
   }
 
@@ -140,7 +120,8 @@ class Universe {
           thiz.addCurve();
           break;
         case ' ':
-          thiz.init();
+          // thiz.init();
+          thiz.addNewTree(thiz.level);
           break;
         case "ARROWUP":
           thiz.changeLevel(1);

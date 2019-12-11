@@ -89,15 +89,17 @@ class Node {
 
     var handleDown = function(e) {
       e.preventDefault();
-      thiz.parent.selectedNode = thiz;
+      thiz.parent.raiseSelectedNode(thiz);
       thiz.isFree = false;
 
     }
     var handleUp = function(e) {
       e.preventDefault();
-      thiz.parent.selectedNode = thiz;
+      thiz.parent.raiseSelectedNode(thiz);
       if (e.ctrlKey) {
         thiz.isFree = true;
+      } else if (e.shiftKey) {
+        thiz.parent.raiseKillTree();
       } else {
         thiz.isFree = false;
       }
@@ -109,7 +111,6 @@ class Node {
   }
 
 }
-
 
 class Edge {
   constructor(node1_, node2_) {
@@ -148,7 +149,6 @@ class Edge {
     }
   }
 
-
   updateDom() {
     if (this.statusOK) {
       this.dom.setAttribute('class', 'segmentOK');
@@ -158,5 +158,81 @@ class Edge {
     }
 
     this.dom.setAttribute('points', pointList_to_string(this.nodes));
+  }
+}
+
+
+class Tree {
+  constructor(size_ = 1, parent_) {
+    this.parent = parent_;
+    this.nodes = [];
+    this.edges = [];
+
+    this.dom = document.createElementNS(SVGNS, 'g');
+
+    this.edgesDom = document.createElementNS(SVGNS, 'g');
+    this.dom.appendChild(this.edgesDom);
+
+    this.nodesDom = document.createElementNS(SVGNS, 'g');
+    this.dom.appendChild(this.nodesDom);
+
+
+    for (let i = 0; i < size_; i++) {
+      this.addNewNode(-50 + Math.random() * 100, Math.random() * 100 - 50);
+    }
+  }
+
+  raiseSelectedNode(selectedNode_) {
+    this.parent.selectNode(selectedNode_);
+  }
+
+  raiseKillTree() {
+    this.parent.killTree(this);
+  }
+
+  updateDom() {
+    for (let node of this.nodes) {
+      // node.normalize(this.radius);
+      node.updateDom();
+    }
+
+    for (let edge of this.edges) {
+      edge.controlOthers(this.edges);
+      edge.updateDom();
+    }
+  }
+
+  addNewNode(x_ = 0, y_ = 0) {
+    let newNode = new Node(x_, y_, this);
+    if (this.nodes.length > 0) {
+      let i = Math.floor(Math.random() * this.nodes.length);
+      this.addNewEdge(newNode, this.nodes[i]);
+    }
+    this.nodesDom.appendChild(newNode.dom);
+    this.nodes.push(newNode)
+  }
+
+  addNewEdge(node1_, node2_) {
+    let newEdge = new Edge(node1_, node2_);
+    this.edgesDom.appendChild(newEdge.dom);
+    this.edges.push(newEdge);
+  }
+
+  recalPos() {
+    for (let edge of this.edges) {
+      edge.nodes[0].interractWith(edge.nodes[1], 45, 0.4325, 1);
+      edge.nodes[1].interractWith(edge.nodes[0], 45, 0.4325, 1);
+    }
+    for (let node of this.nodes) {
+      for (let other of this.nodes) {
+        if (node != other) {
+          node.interractWith(other, 0.001, -125, -1)
+        }
+      }
+    }
+
+    for (let node of this.nodes) {
+      node.recalPos();
+    }
   }
 }
