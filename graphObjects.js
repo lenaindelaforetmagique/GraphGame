@@ -41,7 +41,6 @@ class Node {
     u_.mult(intensity);
     this.dx += u_.x
     this.dy += u_.y
-
   }
 
   recalPos(cheat_) {
