@@ -93,7 +93,7 @@ class Universe {
     tree.dom.remove();
 
     // kill tree
-    console.log(this.trees.indexOf(tree));
+    // console.log(this.trees.indexOf(tree));
     this.trees.splice(this.trees.indexOf(tree), 1);
   }
 

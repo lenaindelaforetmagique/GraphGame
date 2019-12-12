@@ -26,8 +26,8 @@ class Node {
 
     this.dom = document.createElementNS(SVGNS, 'ellipse');
     this.dom.setAttribute("class", "NodeFree");
-    this.dom.setAttribute('rx', 10);
-    this.dom.setAttribute('ry', 10);
+    this.dom.setAttribute('rx', 7);
+    this.dom.setAttribute('ry', 7);
 
     this.addEvents();
     this.updateDom();
@@ -53,7 +53,7 @@ class Node {
     // this.dy += ay;
 
     // viscosity
-    let kv = 0.49;
+    let kv = 0.59;
     this.dx *= kv;
     this.dy *= kv;
 
@@ -220,13 +220,13 @@ class Tree {
 
   recalPos() {
     for (let edge of this.edges) {
-      edge.nodes[0].interractWith(edge.nodes[1], 45, 0.4325, 1);
-      edge.nodes[1].interractWith(edge.nodes[0], 45, 0.4325, 1);
+      edge.nodes[0].interractWith(edge.nodes[1], 45, 0.6, 1);
+      edge.nodes[1].interractWith(edge.nodes[0], 45, 0.6, 1);
     }
     for (let node of this.nodes) {
       for (let other of this.nodes) {
         if (node != other) {
-          node.interractWith(other, 0.001, -125, -1)
+          node.interractWith(other, 0.0001, -20, -1)
         }
       }
     }
